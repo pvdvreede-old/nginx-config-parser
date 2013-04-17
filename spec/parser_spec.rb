@@ -18,4 +18,21 @@ describe NginxConfigParser::Parser do
     end
   end
 
+  context "key value pair parsing" do
+    let(:pair_parser) { parser.key_value }
+
+    it 'parses a single value setting' do
+      expect(pair_parser.parse("key value;")).to eq(
+        :key => "key", :value => ["value"]
+      )
+    end
+
+    it 'parses two value settings' do
+      expect(pair_parser.parse("key value1 value2;")).to eq(
+        :key => "key", :value => [:string => "value1", :string => "value2"]
+      )
+    end
+
+  end
+
 end
